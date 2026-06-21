@@ -1,210 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-
-// ===================================================
-// ESTRUCTURA (AUTORES)
-// ===================================================
-struct Autor
+﻿namespace AgendaTelefonica
 {
-    public string Nombre1;
-    public string Nombre2;
-    public string Carrera;
-    public string Universidad;
-}
-
-// ===================================================
-// REGISTRO / CLASE BASE
-// ===================================================
-class Contacto
-{
-    public string Nombre = "";
-    public string Telefono = "";
-
-    public virtual string Detalle()
+    // Registro y estructura
+    struct RegistroContacto
     {
-        return "";
-    }
-}
-
-// ===================================================
-// CONTACTO PERSONAL
-// ===================================================
-class ContactoPersonal : Contacto
-{
-    public string Relacion = "";
-
-    public override string Detalle()
-    {
-        return "Personal - " + Relacion;
-    }
-}
-
-// ===================================================
-// CONTACTO PROFESIONAL
-// ===================================================
-class ContactoProfesional : Contacto
-{
-    public string Cargo = "";
-
-    public override string Detalle()
-    {
-        return "Profesional - " + Cargo;
-    }
-}
-
-// ===================================================
-// AGENDA (VECTOR + MATRIZ)
-// ===================================================
-class Agenda
-{
-    private List<Contacto> contactos = new List<Contacto>();
-
-    public void Agregar(Contacto c)
-    {
-        contactos.Add(c);
+        public string Nombre;
+        public string Telefono;
     }
 
-    public void MostrarComoMatriz()
+    class Program
     {
-        string[,] matriz = new string[contactos.Count, 3];
-
-        for (int i = 0; i < contactos.Count; i++)
+        static void Main(string[] args)
         {
-            matriz[i, 0] = contactos[i].Nombre;
-            matriz[i, 1] = contactos[i].Telefono;
-            matriz[i, 2] = contactos[i].Detalle();
-        }
+            Console.Write("Ingrese la cantidad de contactos: ");
+            int cantidad = Convert.ToInt32(Console.ReadLine());
 
-        Console.Clear();
-        Console.WriteLine("╔══════════════════════════════════════════════════════════════════════╗");
-        Console.WriteLine("║                       📊 AGENDA TELEFÓNICA 📊                       ║");
-        Console.WriteLine("╠══════════════════════════════════════════════════════════════════════╣");
-        Console.WriteLine("║ NOMBRE                    ║ TELÉFONO     ║ DETALLE                   ║");
-        Console.WriteLine("╠══════════════════════════════════════════════════════════════════════╣");
+            // Vectores
+            string[] Contactos = new string[cantidad];
+            string[] Telefonos = new string[cantidad];
 
-        for (int i = 0; i < matriz.GetLength(0); i++)
-        {
-            Console.WriteLine($"║ {matriz[i, 0],-25} ║ {matriz[i, 1],-12} ║ {matriz[i, 2],-25} ║");
-        }
+            // Estructura / Registro
+            RegistroContacto[] Registros = new RegistroContacto[cantidad];
 
-        Console.WriteLine("╚══════════════════════════════════════════════════════════════════════╝");
-    }
-
-    public void ListarNombres()
-    {
-        Console.WriteLine("\n📋 LISTA DE CONTACTOS DISPONIBLES\n");
-
-        for (int i = 0; i < contactos.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {contactos[i].Nombre}");
-        }
-    }
-
-    public void BuscarPorIndice(int indice)
-    {
-        if (indice >= 0 && indice < contactos.Count)
-        {
-            Contacto c = contactos[indice];
-
-            Console.WriteLine("\n╔══════════════════════════════════╗");
-            Console.WriteLine("║       📌 DATOS DEL CONTACTO      ║");
-            Console.WriteLine("╠══════════════════════════════════╣");
-            Console.WriteLine("║ Nombre   : " + c.Nombre);
-            Console.WriteLine("║ Teléfono : " + c.Telefono);
-            Console.WriteLine("║ Tipo     : " + c.Detalle());
-            Console.WriteLine("╚══════════════════════════════════╝");
-        }
-        else
-        {
-            Console.WriteLine("\n❌ Número inválido.");
-        }
-    }
-}
-
-// ===================================================
-// PROGRAMA PRINCIPAL
-// ===================================================
-class Program
-{
-    static void Main()
-    {
-        Autor autores = new Autor
-        {
-            Nombre1 = "Acosta",
-            Nombre2 = "Cabrera",
-            Carrera = "Ingeniería",
-            Universidad = "Universidad Estatal Amazónica"
-        };
-
-        Agenda agenda = new Agenda();
-
-        // =======================
-        // REGISTROS (10 CONTACTOS)
-        // =======================
-        agenda.Agregar(new ContactoProfesional { Nombre = "David Romero", Telefono = "0998901230", Cargo = "Estudiante UEA" });
-        agenda.Agregar(new ContactoPersonal { Nombre = "Juan Morales", Telefono = "0987654321", Relacion = "Amigo" });
-        agenda.Agregar(new ContactoProfesional { Nombre = "Ortega Delfin", Telefono = "0987279026", Cargo = "Docente UEA" });
-        agenda.Agregar(new ContactoPersonal { Nombre = "Stalin Cabrera", Telefono = "098734343", Relacion = "Tio" });
-        agenda.Agregar(new ContactoPersonal { Nombre = "Maria Lopez", Telefono = "0976543210", Relacion = "Compañera" });
-        agenda.Agregar(new ContactoProfesional { Nombre = "Carlos Perez", Telefono = "0965432109", Cargo = "Ingeniero" });
-        agenda.Agregar(new ContactoPersonal { Nombre = "Yamileth Acosta", Telefono = "0954321098", Relacion = "Prima" });
-        agenda.Agregar(new ContactoProfesional { Nombre = "Luis Herrera", Telefono = "0943210987", Cargo = "Administrador" });
-        agenda.Agregar(new ContactoPersonal { Nombre = "Lady Gavilanes", Telefono = "0932109876", Relacion = "Amiga" });
-        agenda.Agregar(new ContactoProfesional { Nombre = "Miguel Castro", Telefono = "0921098765", Cargo = "Analista" });
-
-        int opcion;
-
-        do
-        {
-            Console.Clear();
-            Console.WriteLine("╔════════════════════════════════════════════════════╗");
-            Console.WriteLine("║     📞 AGENDA TELEFÓNICA - UEA 📞                 ║");
-            Console.WriteLine("╠════════════════════════════════════════════════════╣");
-            Console.WriteLine("║ 1. Mostrar agenda                                 ║");
-            Console.WriteLine("║ 2. Buscar contacto                                ║");
-            Console.WriteLine("║ 3. Salir                                           ║");
-            Console.WriteLine("╚════════════════════════════════════════════════════╝");
-            Console.Write("\nSeleccione una opción: ");
-            int.TryParse(Console.ReadLine(), out opcion);
-
-            switch (opcion)
+            // Ingreso de datos
+            for (int i = 0; i < cantidad; i++)
             {
-                case 1:
-                    agenda.MostrarComoMatriz();
-                    Console.WriteLine("\nPresione una tecla para continuar...");
-                    Console.ReadKey();
-                    break;
+                Console.WriteLine("\nContacto " + (i + 1));
 
-                case 2:
-                    Console.Clear();
-                    agenda.ListarNombres();
-                    Console.Write("\nSeleccione el número del contacto: ");
-                    int num;
-                    int.TryParse(Console.ReadLine(), out num);
-                    agenda.BuscarPorIndice(num - 1);
-                    Console.WriteLine("\nPresione una tecla para continuar...");
-                    Console.ReadKey();
-                    break;
+                Console.Write("Nombre: ");
+                Contactos[i] = Console.ReadLine();
 
-                case 3:
-                    Console.Clear();
-                    Console.WriteLine("╔════════════════════════════════════════════════════╗");
-                    Console.WriteLine("║   🙌 GRACIAS POR USAR LA AGENDA TELEFÓNICA 🙌     ║");
-                    Console.WriteLine("╠════════════════════════════════════════════════════╣");
-                    Console.WriteLine("║   Desarrollado por:                               ║");
-                    Console.WriteLine("║   Cabrera Herrera Sandra Cecibel                  ║");
-                    Console.WriteLine("║                                                    ║");
-                    Console.WriteLine($"║   {autores.Universidad}                            ║");
-                    Console.WriteLine("╚════════════════════════════════════════════════════╝");
-                    Console.ReadKey();
-                    break;
+                Console.Write("Telefono: ");
+                Telefonos[i] = Console.ReadLine();
 
-                default:
-                    Console.WriteLine("\n❌ Opción no válida.");
-                    Console.ReadKey();
-                    break;
+                Registros[i].Nombre = Contactos[i];
+                Registros[i].Telefono = Telefonos[i];
             }
 
-        } while (opcion != 3);
+            int opcion;
+
+            do
+            {
+                Console.WriteLine("\n===== AGENDA TELEFONICA =====");
+                Console.WriteLine("1. Mostrar contactos");
+                Console.WriteLine("2. Salir");
+                Console.Write("Seleccione una opcion: ");
+
+                opcion = Convert.ToInt32(Console.ReadLine());
+
+                switch (opcion)
+                {
+                    case 1:
+
+                        // Matriz
+                        string[,] Agenda = new string[cantidad, 2];
+
+                        for (int i = 0; i < cantidad; i++)
+                        {
+                            Agenda[i, 0] = Registros[i].Nombre;
+                            Agenda[i, 1] = Registros[i].Telefono;
+                        }
+
+                        Console.WriteLine("\nNOMBRE\t\tTELEFONO");
+
+                        for (int i = 0; i < cantidad; i++)
+                        {
+                            Console.WriteLine(
+                                Agenda[i, 0] + "\t\t" +
+                                Agenda[i, 1]);
+                        }
+
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Programa finalizado.");
+                        break;
+
+                    default:
+                        Console.WriteLine("Opcion incorrecta.");
+                        break;
+                }
+
+            } while (opcion != 2);
+        }
     }
 }
